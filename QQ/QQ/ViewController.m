@@ -57,16 +57,18 @@ static CGFloat const height = 100;
 }
 - (void)gesture:(UILongPressGestureRecognizer *)gesture {
     
+    CGPoint point = [gesture locationInView:self.view];
+    
     if (gesture.state == UIGestureRecognizerStateEnded ) {
         self.picView.hidden = YES;
-        self.picView.frame = CGRectMake((self.view.frame.size.width - width) /2, (self.view.frame.size.height - height) /2, width, height);
         return;
     } else if (gesture.state == UIGestureRecognizerStateBegan ) {
         self.picView.hidden = NO;
         [self.view bringSubviewToFront:self.picView];
+        self.picView.frame = CGRectMake(point.x - self.picView.frame.size.width / 2, (self.view.frame.size.height - height) /2, width, height);
     }
     
-    CGPoint point = [gesture locationInView:self.view];
+    
     CGRect picRect = [self rectConvertor:self.picView];
 //    NSLog(@"%@",[NSValue valueWithCGRect:picRect]);
     self.label.text = [NSString stringWithFormat:@"x:%lf,y:%lf",picRect.origin.x,picRect.origin.y];
